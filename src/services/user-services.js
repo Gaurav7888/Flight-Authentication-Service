@@ -18,7 +18,11 @@ class UserService {
 
     async delete(userId){
         try {
-            
+            await this.userRepository.destroy({
+                where : {
+                    id:userId
+                }
+            }) 
         } catch (error) {
             console.log("Something is wrong on Service layer");
             throw(error);

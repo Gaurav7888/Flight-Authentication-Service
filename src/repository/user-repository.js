@@ -21,7 +21,7 @@ class UserRepository {
                     where: {
                         id: userId
                     }
-                });
+                })
                 return true;
             }
             catch (error) {
