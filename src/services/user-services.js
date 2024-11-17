@@ -38,7 +38,7 @@ class UserService {
         // step->2 compare incoming password and stored encrypted password
         // step->3 if password matches then create a token and send it to user
         try {
-            const user = this.userRepository.getByEmail(email);
+            const user = await this.userRepository.getByEmail(email);
             const passwordMatch = this.checkPassword(plainPassword, user.password);
             if (!passwordMatch) {
                 console.log("Password Doesn't match");
@@ -101,6 +101,15 @@ class UserService {
         } catch (error) {
             console.log("Something is wrong in Token Verification part");
             throw(error);
+        }
+    }
+
+    async isAdmin(userId) {
+        try {
+            return await this.userRepository.isAdmin(userId)
+        } catch (error) {
+            console.log("something went wrong with service layer");
+            throw error
         }
     }
 

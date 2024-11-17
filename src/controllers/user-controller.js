@@ -3,16 +3,16 @@ const UserService =  require('../services/user-services');
 
 const userService = new UserService();
 
-const create = async (req, res) => {
+const create = async(req, res) => {
     try {
-        const response = await userService.create({
-            email: req.body.email,
-            password: req.body.password
+        const user = await userService.create({
+            email : req.body.email,
+            password : req.body.password
         })
 
         return res.status(201).json({
             message:"Successfuly created User",
-            data: response,
+            data: user,
             success: true,
             err: {}
         });
@@ -74,8 +74,31 @@ const isAuthenticated = async (req, res) => {
         });
     }
 }
+
+    const isAdmin = async(req, res) => {
+        try {
+            const result = await userService.isAdmin(req.body.id);
+            return res.status(200).json({
+                success:true,
+                message : "Admin is located.",
+                err : {},
+                data : result
+            })
+        } catch (error) 
+        {
+            console.log( error);
+            return res.status(500).json({
+                message : "Somethin went wrong!",
+                success : false,
+                err : error,
+                data : {}
+            })
+        }
+    }
+    
 module.exports = {
     create,
     signIn,
-    isAuthenticated
+    isAuthenticated,
+    isAdmin
 }
